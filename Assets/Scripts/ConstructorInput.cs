@@ -5,8 +5,9 @@ using UnityEngine;
 public class ConstructorInput : MonoBehaviour
 {
     [SerializeField] private Map _map;
-    
-    private ShipConstructor _ship;
+
+    //private ShipConstructor _ship;
+    private ShipDeckConstructor _deck;
 
     private void Update()
     {
@@ -16,17 +17,20 @@ public class ConstructorInput : MonoBehaviour
 
             if (hit.collider)
             {
-                if(hit.collider.TryGetComponent(out ShipConstructor ship))
+                if(hit.collider.TryGetComponent(out ShipDeckConstructor deck))
                 {
-                    _ship = ship;
+                    Debug.Log(deck.Ship);
+                    _deck = deck;
                 }
                 if(hit.collider.TryGetComponent(out CellConstructor cell))
                 {
-                    if(_ship != null)
-                    {
-                        Debug.Log($"Корабль {_ship.name} был установлен в {cell.transform.position}");
-                        _map.Take(_ship, cell);
-                        _ship = null;
+                    if(_deck != null)
+                    {           
+                        if(_map.Take(_deck, cell))
+                        {
+                            Debug.Log($"Корабль {_deck.Ship.name} был установлен в {cell.transform.position}");
+                        }
+                        _deck = null;
                     }
                     else
                     {
@@ -36,11 +40,11 @@ public class ConstructorInput : MonoBehaviour
             }
             else
             {
-                if (_ship)
+                if (_deck)
                 {
-                    Debug.Log($"Корабль {_ship.name} был убран из ячейки");
-                    _ship.Deinstall();
-                    _ship = null;
+                    Debug.Log($"Корабль {_deck.Ship.name} был убран из ячейки");
+                    _deck.Ship.Deinstall();
+                    _deck = null;
                 } 
             }
         }
