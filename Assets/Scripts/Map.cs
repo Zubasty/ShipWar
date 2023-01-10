@@ -32,36 +32,40 @@ public class Map : MonoBehaviour
 
         for(int i = 0; i < countDecks; i++)
         {
+            (int i, int j) indexes = GetIndexes(cell);
+
             if (goToRight)
             {
-                (int i, int j) indexes = GetIndexes(cell);
-                indexes.i -= numberDeck + i;
-                if ((HaveCell(indexes.i, indexes.j) && IsFreeCell(indexes)) == false)
-                {
-                    Debug.Log($"Корабль нельзя установить в ячейку {cell.transform.position}, потому что она занята, либо не существует");
-                    return false;
-                }
+                indexes.i += i - numberDeck;
             }
             else
             {
-
+                indexes.j += i - numberDeck;
             }
-        }  
+
+            if ((HaveCell(indexes.i, indexes.j) && IsFreeCell(indexes)) == false)
+            {
+                Debug.Log($"Корабль нельзя установить в ячейку {indexes}, потому что она занята, либо не существует");
+                return false;
+            }
+        }
 
         for (int i = 0; i < countDecks; i++)
         {
+            (int i, int j) indexes = GetIndexes(cell);
+
             if (goToRight)
             {
-                (int i, int j) indexes = GetIndexes(cell);
-                indexes.i -= numberDeck + i;
-                _cells[indexes.i, indexes.j].InstallDeck(deck.Ship[i]);
+                indexes.i += i - numberDeck;
             }
             else
             {
-
+                indexes.j += i - numberDeck;
             }
+            _cells[indexes.i, indexes.j].InstallDeck(deck.Ship[i]);
         }
-        
+
+        deck.Ship.Install(deck, cell.transform.position);
         return true;
     }
 

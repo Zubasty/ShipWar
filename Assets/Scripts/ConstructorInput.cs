@@ -38,15 +38,24 @@ public class ConstructorInput : MonoBehaviour
                     }
                 }
             }
-            else
-            {
-                if (_deck)
-                {
-                    Debug.Log($"Корабль {_deck.Ship.name} был убран из ячейки");
-                    _deck.Ship.Deinstall();
-                    _deck = null;
-                } 
-            }
+        }
+    }
+
+    public void DropShip()
+    {
+        if (_deck)
+        {
+            Debug.Log($"Корабль {_deck.Ship.name} больше не выбран");
+            _deck.Ship.Deinstall();
+            _deck = null;
+        }
+    }
+
+    public void RotateShip()
+    {
+        if (_deck)
+        {
+            _deck.Ship.Rotate();
         }
     }
 }

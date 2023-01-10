@@ -3,12 +3,15 @@ using UnityEngine;
 
 public class ShipConstructor : MonoBehaviour
 {
-    private const int RotateValue = -90;
+    private const int RotateValue = 270;
     private const int NotRotateValue = 0;
 
     [SerializeField] private ShipDeckConstructor[] _decks;
 
-    public event Action Deinstalled;
+    private Vector3 _defaultPosition;
+
+    public event Action<ShipConstructor> Deinstalled;
+    public event Action<ShipConstructor> Installed;
 
     public bool IsRotated => transform.rotation.eulerAngles.z == RotateValue;
 
@@ -24,7 +27,9 @@ public class ShipConstructor : MonoBehaviour
 
     private void Start()
     {
-        foreach(ShipDeckConstructor deck in _decks)
+        _defaultPosition = transform.position;
+
+        foreach (ShipDeckConstructor deck in _decks)
         {
             deck.Initalization(this);
         }
@@ -42,25 +47,52 @@ public class ShipConstructor : MonoBehaviour
         return -1;
     }
 
-    public void SetPosition(ShipDeckConstructor deck, Vector3 position)
+    public void Install(ShipDeckConstructor deck, Vector3 position)
     {
-        int i = GetNumberDeck(deck);
-
-        if (CountDecks % 2 == 0)
-        {
-
-        }
-        else
-        {
-            int mid = (CountDecks - 1) / 2;
-            transform.position = position + new Vector3(i - mid, 0, 0);
-        }
+        SetPosition(deck, position);
+        Installed?.Invoke(this);
     }
 
-    public void Rotate() => transform.rotation = Quaternion.Euler(0, 0, IsRotated ? NotRotateValue : RotateValue);
+    public void Rotate() 
+    {
+        transform.rotation = Quaternion.Euler(0, 0, IsRotated ? NotRotateValue : RotateValue); 
+    }
 
     public void Deinstall()
     {
-        Deinstalled?.Invoke();
+        transform.position = _defaultPosition;
+        Deinstalled?.Invoke(this);
+    }
+
+    public void OnVisual()
+    {
+        foreach(ShipDeckConstructor deck in _decks)
+        {
+            deck.OnVisual();
+        }
+    }
+
+    public void OffVisual()
+    {
+        foreach (ShipDeckConstructor deck in _decks)
+        {
+            deck.OffVisual();
+        }
+    }
+
+    private void SetPosition(ShipDeckConstructor deck, Vector3 position)
+    {
+        int i = GetNumberDeck(deck);
+        float mid = (CountDecks - 1) / 2.0f;
+        float shift = mid - i;
+
+        if (IsRotated)
+        {
+            transform.position = position + new Vector3(shift, 0, -1);
+        }
+        else
+        {
+            transform.position = position + new Vector3(0, shift, -1);
+        }
     }
 }
