@@ -15,6 +15,8 @@ public class ShipConstructor : MonoBehaviour
 
     public bool IsRotated => transform.rotation.eulerAngles.z == RotateValue;
 
+    public bool IsInstalled { get; private set; }
+
     public int CountDecks => _decks.Length;
 
     public ShipDeckConstructor this[int i]
@@ -27,6 +29,7 @@ public class ShipConstructor : MonoBehaviour
 
     private void Start()
     {
+        IsInstalled = false;
         _defaultPosition = transform.position;
 
         foreach (ShipDeckConstructor deck in _decks)
@@ -49,19 +52,36 @@ public class ShipConstructor : MonoBehaviour
 
     public void Install(ShipDeckConstructor deck, Vector3 position)
     {
+        if (IsInstalled)
+        {
+            throw new Exception($"Попытка установить уже установленный корабль {name}");
+        }
+
         SetPosition(deck, position);
         Installed?.Invoke(this);
+        IsInstalled = true;
     }
 
     public void Rotate() 
     {
-        transform.rotation = Quaternion.Euler(0, 0, IsRotated ? NotRotateValue : RotateValue); 
+        if(IsInstalled)
+        {
+            throw new Exception($"Попытка повернуть уже установленный корабль {name}");
+        }
+
+        transform.rotation = Quaternion.Euler(0, 0, IsRotated ? NotRotateValue : RotateValue);
     }
 
     public void Deinstall()
     {
+        if (IsInstalled == false)
+        {
+            throw new Exception($"Попытка сбросить еще неустановленный корабль {name}");
+        }
+
         transform.position = _defaultPosition;
         Deinstalled?.Invoke(this);
+        IsInstalled = false;       
     }
 
     public void OnVisual()

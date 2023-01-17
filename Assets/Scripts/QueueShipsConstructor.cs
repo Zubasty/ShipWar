@@ -70,13 +70,7 @@ public class QueueShipsConstructor : MonoBehaviour
     {
         int number = ship.CountDecks - 1;
 
-        if (ship != _queues[number].Peek())
-        {
-            throw new Exception($"Корабль {ship} не является последним в очереди. Последний корабль в очереди - {_queues[ship.CountDecks - 1].Peek()}");
-        }
-
         _queues[number].Dequeue();
-        ship.OffVisual();
 
         if (_queues[number].Count > 0)
         {
@@ -87,5 +81,10 @@ public class QueueShipsConstructor : MonoBehaviour
     private void OnDeinstalled(ShipConstructor ship)
     {
         _queues[ship.CountDecks - 1].Enqueue(ship);
+
+        if (_queues[ship.CountDecks - 1].Count > 1)
+        {
+            ship.OffVisual();
+        }
     }
 }

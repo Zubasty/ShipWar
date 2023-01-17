@@ -125,3 +125,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 7576382789314958503}
+  _collider: {fileID: 7576382789314958496}
+  _settings: {fileID: 11400000, guid: 944c8e9855f5614458ca88387a8e91fc, type: 2}

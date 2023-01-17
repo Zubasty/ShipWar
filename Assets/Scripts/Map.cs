@@ -65,6 +65,11 @@ public class Map : MonoBehaviour
             _cells[indexes.i, indexes.j].InstallDeck(deck.Ship[i]);
         }
 
+        if(deck.Ship.IsInstalled == true)
+        {
+            deck.Ship.Deinstall();
+        }
+
         deck.Ship.Install(deck, cell.transform.position);
         return true;
     }

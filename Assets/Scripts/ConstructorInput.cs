@@ -1,13 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ConstructorInput : MonoBehaviour
 {
     [SerializeField] private Map _map;
+    [SerializeField] private Button _buttonRotateShip;
+    [SerializeField] private Button _buttonDropShip;
 
     //private ShipConstructor _ship;
     private ShipDeckConstructor _deck;
+
+    private void OnEnable()
+    {
+        _buttonRotateShip.onClick.AddListener(RotateShip);
+        _buttonDropShip.onClick.AddListener(DropShip);
+    }
+
+    private void OnDisable()
+    {
+        _buttonRotateShip.onClick.RemoveListener(RotateShip);
+        _buttonDropShip.onClick.RemoveListener(DropShip);
+    }
+
+    private void Start()
+    {
+        SetActivityButtons();
+    }
 
     private void Update()
     {
@@ -19,8 +39,14 @@ public class ConstructorInput : MonoBehaviour
             {
                 if(hit.collider.TryGetComponent(out ShipDeckConstructor deck))
                 {
-                    Debug.Log(deck.Ship);
+                    if (_deck)
+                    {
+                        DeselectShip();
+                    }
+
                     _deck = deck;
+                    _deck.Select();
+                    SetActivityButtons();
                 }
                 if(hit.collider.TryGetComponent(out CellConstructor cell))
                 {
@@ -30,7 +56,9 @@ public class ConstructorInput : MonoBehaviour
                         {
                             Debug.Log($"Корабль {_deck.Ship.name} был установлен в {cell.transform.position}");
                         }
+                        DeselectShip();
                         _deck = null;
+                        SetActivityButtons();
                     }
                     else
                     {
@@ -41,21 +69,53 @@ public class ConstructorInput : MonoBehaviour
         }
     }
 
-    public void DropShip()
+    private void SetActivityButtons()
     {
         if (_deck)
         {
-            Debug.Log($"Корабль {_deck.Ship.name} больше не выбран");
-            _deck.Ship.Deinstall();
-            _deck = null;
+            if (_deck.Ship.IsInstalled)
+            {
+                _buttonRotateShip.interactable = false;
+                _buttonDropShip.interactable = true;
+            }
+            else
+            {
+                _buttonRotateShip.interactable = true;
+                _buttonDropShip.interactable = false;
+            }
+        }
+        else
+        {
+            _buttonRotateShip.interactable = false;
+            _buttonDropShip.interactable = false;
         }
     }
 
-    public void RotateShip()
+    private void DropShip()
     {
-        if (_deck)
+        if (_deck && _deck.Ship.IsInstalled)
+        {
+            Debug.Log($"Корабль {_deck.Ship.name} больше не выбран");
+            _deck.Ship.Deinstall();
+            DeselectShip();
+            _deck = null;
+            SetActivityButtons();
+        }
+    }
+
+    private void RotateShip()
+    {
+        if (_deck && _deck.Ship.IsInstalled == false)
         {
             _deck.Ship.Rotate();
+        }
+    }
+
+    private void DeselectShip()
+    {
+        for (int i = 0; i < _deck.Ship.CountDecks; i++)
+        {
+            _deck.Ship[i].Deselect();
         }
     }
 }
