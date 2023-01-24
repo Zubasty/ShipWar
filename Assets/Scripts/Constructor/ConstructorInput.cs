@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ConstructorInput : MonoBehaviour
 {
-    [SerializeField] private Map _map;
+    [SerializeField] private MapConstructor _map;
     [SerializeField] private Button _buttonRotateShip;
     [SerializeField] private Button _buttonDropShip;
 
@@ -52,8 +52,9 @@ public class ConstructorInput : MonoBehaviour
                 {
                     if(_deck != null)
                     {           
-                        if(_map.Take(_deck, cell))
+                        if(_map.CanTakeDeck(_deck, cell))
                         {
+                            _map.Take(_deck, cell);
                             Debug.Log($"Корабль {_deck.Ship.name} был установлен в {cell.transform.position}");
                         }
                         DeselectShip();
@@ -80,7 +81,7 @@ public class ConstructorInput : MonoBehaviour
             }
             else
             {
-                _buttonRotateShip.interactable = true;
+                _buttonRotateShip.interactable = _deck.Ship.CountDecks > 1;
                 _buttonDropShip.interactable = false;
             }
         }
