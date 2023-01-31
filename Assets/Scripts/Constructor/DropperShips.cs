@@ -18,7 +18,7 @@ public class DropperShips : MonoBehaviour
         _button.onClick.RemoveListener(DropShips);
     }
 
-    private void DropShips()
+    public void DropShips()
     {
         foreach (ShipConstructor ship in _ships)
             if(ship.IsInstalled)

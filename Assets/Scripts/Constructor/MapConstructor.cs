@@ -13,9 +13,9 @@ public class MapConstructor : MonoBehaviour
     {
         _cells = new CellConstructor[_size, _size];
 
-        for (int i = 0; i < _size; i++)
+        for (int j = 0; j < _size; j++)
         {
-            for (int j = 0; j < _size; j++)
+            for (int i = 0; i < _size; i++)
             {
                 _cells[i, j] = Instantiate(_cell, transform);
                 _cells[i, j].transform.position = new Vector2(i, j) + _shift;
@@ -114,6 +114,20 @@ public class MapConstructor : MonoBehaviour
         }
 
         return true;
+    }
+
+    public int[,] GetMattrixMap()
+    {
+        int[,] mattrix = new int[_size, _size];
+
+        for (int j = 0; j < _size; j++)
+        {
+            for (int i = 0; i < _size; i++)
+            {
+                mattrix[i, _size - j - 1] = _cells[i, j].Deck ? 1 : 0;
+            }
+        }
+        return mattrix;
     }
 
     private bool IsFreeCell((int i, int j) indexes)

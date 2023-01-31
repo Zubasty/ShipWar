@@ -8,11 +8,10 @@ public class QueueShipsConstructor : MonoBehaviour
     [SerializeField] private ShipConstructor[] _ships;
 
     private Queue<ShipConstructor>[] _queues;
-    private int _countTypeShips;
+    private int _countTypeShips = 4;
 
     private void Awake()
     {
-        _countTypeShips = 4;
         _queues = new Queue<ShipConstructor>[_countTypeShips];
 
         for (int i = 0; i < _countTypeShips; i++)
