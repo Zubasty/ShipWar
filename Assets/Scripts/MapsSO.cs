@@ -43,6 +43,20 @@ public class MapsSO : ScriptableObject
         Debug.Log(st);
     }
 
+    public int GetLengthMaps()
+    {
+        if (_mattrixEnemy.GetLength(1) == _mattrixEnemy.GetLength(0) && 
+            _mattrixEnemy.GetLength(0) == _mattrixPlayer.GetLength(1) &&
+            _mattrixPlayer.GetLength(1) == _mattrixPlayer.GetLength(0))
+        {
+            return _mattrixEnemy.GetLength(1);
+        }
+        else
+        {
+            throw new System.Exception("Матрицы карт врага и игрока должны быть квадратными и одинаковыми");
+        }
+    }
+
     public int GetCellPlayer(int i, int j)
     {
         return _mattrixPlayer[i, j];

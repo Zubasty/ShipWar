@@ -58,8 +58,8 @@ public class ShipConstructor : MonoBehaviour
         }
 
         SetPosition(deck, position);
-        Installed?.Invoke(this);
         IsInstalled = true;
+        Installed?.Invoke(this);     
     }
 
     public void Rotate() 
@@ -80,8 +80,8 @@ public class ShipConstructor : MonoBehaviour
         }
 
         transform.position = _defaultPosition;
-        Deinstalled?.Invoke(this);
-        IsInstalled = false;       
+        IsInstalled = false;
+        Deinstalled?.Invoke(this);      
     }
 
     public void OnVisual()

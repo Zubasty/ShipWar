@@ -959,23 +959,11 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 747348070}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1595500452}
-        m_TargetAssemblyTypeName: MapSaverConstructor, Assembly-CSharp
-        m_MethodName: Save
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &747348070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1732,12 +1720,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 759b3673f260d4148b441d3de6e2b9e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ships:
+  - {fileID: 915282735}
+  - {fileID: 1758803395}
+  - {fileID: 847891510}
+  - {fileID: 1785110117}
+  - {fileID: 1004257625}
+  - {fileID: 406885276}
+  - {fileID: 1224910428}
+  - {fileID: 1774038826}
+  - {fileID: 559028572}
+  - {fileID: 1905460339}
   _maps: {fileID: 11400000, guid: 59300cc8bcbff56488ce274848cc2c88, type: 2}
   _map: {fileID: 1595500450}
   _random: {fileID: 1623466504}
   _dropper: {fileID: 1833203053}
   _numberGameScene: 1
   _panelLoading: {fileID: 764988402}
+  _startGameButton: {fileID: 747348069}
 --- !u!1 &1623466502
 GameObject:
   m_ObjectHideFlags: 0
