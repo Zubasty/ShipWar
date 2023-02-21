@@ -5,16 +5,17 @@ namespace Game
     public class MapGameGenerator : MonoBehaviour
     {
         [SerializeField] private MapsSO _maps;
-        [SerializeField] private Player _player;
+        [SerializeField] private User _user;
         [SerializeField] private Enemy _enemy;
 
         private void Awake()
         {
-            _player.Init(GetMapPlayer());
-            _enemy.Init(GetMapEnemy());
+            Map userMap = GetMapUser();
+            _user.Init(userMap);
+            _enemy.Init(GetMapEnemy(), userMap);
         }
 
-        private Map GetMapPlayer()
+        private Map GetMapUser()
         {
             Cell[,] cells = new Cell[_maps.GetLengthMaps(), _maps.GetLengthMaps()];
 
@@ -22,13 +23,13 @@ namespace Game
             {
                 for (int i = 0; i<cells.GetLength(1); i++)
                 {
-                    if(_maps.GetCellPlayer(i,j) == 1)
+                    if(_maps.GetCellUser(i,j) == 1)
                     {
-                        cells[i, _maps.GetLengthMaps() - j - 1] = new Cell(new ShipDeck());
+                        cells[i, _maps.GetLengthMaps() - j - 1] = new Cell(true, new ShipDeck());
                     }
                     else
                     {
-                        cells[i, _maps.GetLengthMaps() - j - 1] = new Cell();
+                        cells[i, _maps.GetLengthMaps() - j - 1] = new Cell(true);
                     }
                 }
             }
@@ -46,11 +47,11 @@ namespace Game
                 {
                     if (_maps.GetEnemyCell(i, j) == 1)
                     {
-                        cells[i, _maps.GetLengthMaps() - j - 1] = new Cell(new ShipDeck());
+                        cells[i, _maps.GetLengthMaps() - j - 1] = new Cell(false, new ShipDeck());
                     }
                     else
                     {
-                        cells[i, _maps.GetLengthMaps() - j - 1] = new Cell();
+                        cells[i, _maps.GetLengthMaps() - j - 1] = new Cell(false);
                     }
                 }
             }

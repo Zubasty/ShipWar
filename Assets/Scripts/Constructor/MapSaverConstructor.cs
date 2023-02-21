@@ -54,7 +54,7 @@ public class MapSaverConstructor : MonoBehaviour
     private void Save()
     {
         _panelLoading.SetActive(true);
-        _maps.TakeMattrixPlayer(_map.GetMattrixMap());
+        _maps.TakeMattrixUser(_map.GetMattrixMap());
         _dropper.DropShips();
         _random.Random();
         _maps.TakeMattrixEnemy(_map.GetMattrixMap());

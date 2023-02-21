@@ -4,32 +4,32 @@ using UnityEngine;
 
 namespace Game
 {
-    public class Enemy : MonoBehaviour
+    public class Enemy : Player
     {
-        [SerializeField] private Vector2 _positionMap;
-        [SerializeField] private CellVisual _cellPrefab;
+        [SerializeField] private Map _userMap;
 
-        private Map _map;
-        private CellVisual[,] _cellsVisual;
-
-        private void Start()
+        public void Init(Map map, Map userMap)
         {
-            _cellsVisual = new CellVisual[_map.GetLength(), _map.GetLength()];
-
-            for (int i = 0; i < _map.GetLength(); i++)
-            {
-                for (int j = 0; j < _map.GetLength(); j++)
-                {
-                    _cellsVisual[i, j] = Instantiate(_cellPrefab, transform);
-                    _cellsVisual[i, j].transform.position = _positionMap + new Vector2(i, j);
-                    _cellsVisual[i, j].Init(_map[i,j], CellVisualCondition.Close);
-                }
-            }
+            Init(map);
+            _userMap = userMap;
         }
 
-        public void Init(Map map)
+        public void Step()
         {
-            _map = map;
+            List<Cell> cells = new List<Cell>();
+
+            for(int i = 0; i < _userMap.GetLength(); i++)
+            {
+                for(int j = 0; j < _userMap.GetLength(); j++)
+                {
+                    if (_userMap[i,j].IsOpen == false)
+                    {
+                        cells.Add(_userMap[i,j]);
+                    }
+                }
+            }
+
+            cells[Random.Range(0, cells.Count)].TakeHit();
         }
     }
 }

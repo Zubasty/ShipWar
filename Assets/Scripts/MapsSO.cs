@@ -3,12 +3,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Maps", menuName = "ScriptableObjects/Maps")]
 public class MapsSO : ScriptableObject
 {
-    private int[,] _mattrixPlayer;
+    private int[,] _mattrixUser;
     private int[,] _mattrixEnemy;
 
-    public void TakeMattrixPlayer(int[,] mattrixPlayer)
+    public void TakeMattrixUser(int[,] mattrixPlayer)
     {
-        _mattrixPlayer = mattrixPlayer;
+        _mattrixUser = mattrixPlayer;
     }
 
     public void TakeMattrixEnemy(int[,] mattrixEnemy)
@@ -20,11 +20,11 @@ public class MapsSO : ScriptableObject
     {
         string st = "Player:\n";
 
-        for(int j = 0; j < _mattrixPlayer.GetLength(1); j++)
+        for(int j = 0; j < _mattrixUser.GetLength(1); j++)
         {
-            for(int i = 0; i < _mattrixPlayer.GetLength(0); i++)
+            for(int i = 0; i < _mattrixUser.GetLength(0); i++)
             {
-                st += $"{_mattrixPlayer[i, j]} ";
+                st += $"{_mattrixUser[i, j]} ";
             }
             st += $"\n";
         }
@@ -46,8 +46,8 @@ public class MapsSO : ScriptableObject
     public int GetLengthMaps()
     {
         if (_mattrixEnemy.GetLength(1) == _mattrixEnemy.GetLength(0) && 
-            _mattrixEnemy.GetLength(0) == _mattrixPlayer.GetLength(1) &&
-            _mattrixPlayer.GetLength(1) == _mattrixPlayer.GetLength(0))
+            _mattrixEnemy.GetLength(0) == _mattrixUser.GetLength(1) &&
+            _mattrixUser.GetLength(1) == _mattrixUser.GetLength(0))
         {
             return _mattrixEnemy.GetLength(1);
         }
@@ -57,9 +57,9 @@ public class MapsSO : ScriptableObject
         }
     }
 
-    public int GetCellPlayer(int i, int j)
+    public int GetCellUser(int i, int j)
     {
-        return _mattrixPlayer[i, j];
+        return _mattrixUser[i, j];
     }
 
     public int GetEnemyCell(int i, int j)

@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace Game
 {
-    public class Player : MonoBehaviour
+    public abstract class Player : MonoBehaviour
     {
         [SerializeField] private Vector2 _positionMap;
         [SerializeField] private CellVisual _cellPrefab;
@@ -12,17 +11,41 @@ namespace Game
         private Map _map;
         private CellVisual[,] _cellsVisual;
 
+        public event Action<Cell> Attacked;
+
+        private void OnEnable()
+        {
+            for (int i = 0; i < _map.GetLength(); i++)
+            {
+                for (int j = 0; j < _map.GetLength(); j++)
+                {
+                    _map[i, j].TookHit += OnTookHit;
+                }
+            }
+        }
+
+        private void OnDisable()
+        {
+            for (int i = 0; i < _map.GetLength(); i++)
+            {
+                for (int j = 0; j < _map.GetLength(); j++)
+                {
+                    _map[i, j].TookHit -= OnTookHit;
+                }
+            }
+        }
+
         private void Start()
         {
             _cellsVisual = new CellVisual[_map.GetLength(), _map.GetLength()];
 
-            for(int i = 0; i < _map.GetLength(); i++)
+            for (int i = 0; i < _map.GetLength(); i++)
             {
-                for(int j = 0; j < _map.GetLength(); j++)
-                {
+                for (int j = 0; j < _map.GetLength(); j++)
+                {   
                     _cellsVisual[i, j] = Instantiate(_cellPrefab, transform);
                     _cellsVisual[i, j].transform.position = _positionMap + new Vector2(i, j);
-                    _cellsVisual[i, j].Init(_map[i, j], _map[i,j].HaveDeck ? CellVisualCondition.Deck : CellVisualCondition.Open);
+                    _cellsVisual[i, j].Init(_map[i, j]);
                 }
             }
         }
@@ -30,6 +53,14 @@ namespace Game
         public void Init(Map map)
         {
             _map = map;
+        }
+
+        private void OnTookHit(Cell cell)
+        {
+            if(cell.IsOpen == false)
+            {
+                Attacked?.Invoke(cell);
+            } 
         }
     }
 }

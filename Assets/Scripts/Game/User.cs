@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Game
 {
-    public class ShipDeck { }
+    public class User : Player
+    {
+       
+    }
 }
 

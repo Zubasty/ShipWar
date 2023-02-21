@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,20 +7,32 @@ namespace Game
     public class Cell
     {
         private ShipDeck _deck;
-        private bool _isHitted;
+        private bool _isOpen;
+        private bool _belongUser;
+
+        public event Action<Cell> TookHit;
+        public event Action<Cell> Opened;
 
         public bool HaveDeck => _deck != null;
+        public bool IsOpen => _isOpen;
+        public bool BelongUser => _belongUser;
 
-        public Cell(ShipDeck deck = null)
+        public Cell(bool belongPlayer, ShipDeck deck = null)
         {
             _deck = deck;
-            _isHitted = false;
+            _isOpen = false;
+            _belongUser = belongPlayer;
         }
 
-        public void TakeHit(out bool HadDamage)
+        public void TakeHit()
         {
-            _isHitted = true;
-            HadDamage = HaveDeck;
+            TookHit?.Invoke(this);
+        }
+
+        public void Open()
+        {
+            _isOpen = true;
+            Opened?.Invoke(this);
         }
     }
 }

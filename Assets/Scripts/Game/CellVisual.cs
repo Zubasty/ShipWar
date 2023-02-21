@@ -6,39 +6,54 @@ namespace Game
 {
     public class CellVisual : MonoBehaviour
     {
-        [SerializeField] private Color[] _colorsCondition;
+        [SerializeField] private Color[] _colorsCondition; //0 - закрыто; 1 - пусто; 2 - палуба; 3 - пусто и подбито; 4 - палуба и подбито
         [SerializeField] private SpriteRenderer _renderer;
 
-        private CellVisualCondition _condition;
         private Cell _cell;
+
+        private void OnEnable()
+        {
+            _cell.Opened += OnOpened;
+        }
+
+        private void OnDisable()
+        {
+            _cell.Opened -= OnOpened;
+        }
 
         private void OnMouseDown()
         {
-            if(_condition == CellVisualCondition.Close)
+            if(_cell.BelongUser == false)
             {
-                if(_cell.HaveDeck)
-                {
-                    _condition = CellVisualCondition.Damaged;
-                }
-                else
-                {
-                    _condition = CellVisualCondition.Clear;
-                }
-
-                SetColor();
+                _cell.TakeHit();
             }  
         }
 
-        public void Init(Cell cell, CellVisualCondition condition)
+        public void Init(Cell cell)
         {
             _cell = cell;
-            _condition = condition;
-            SetColor();
+
+            if (cell.BelongUser)
+            {
+                if (cell.HaveDeck)
+                    _renderer.color = _colorsCondition[2];
+                else
+                    _renderer.color = _colorsCondition[1];
+            }
+            else
+            {
+                _renderer.color = _colorsCondition[0];
+            }
+
+            gameObject.SetActive(true);
         }
 
-        private void SetColor()
+        private void OnOpened(Cell cell)
         {
-            _renderer.color = _colorsCondition[(int)_condition];
+            if (cell.HaveDeck)
+                _renderer.color = _colorsCondition[4];
+            else
+                _renderer.color = _colorsCondition[3];
         }
     }
 }
