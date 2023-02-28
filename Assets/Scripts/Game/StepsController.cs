@@ -11,14 +11,14 @@ namespace Game
 
         private void OnEnable()
         {
-            _user.Attacked += OnAttackedUser;
-            _enemy.Attacked += OnAttackedEnemy;
+            _user.TakingAttack += OnAttacked;
+            _enemy.TakingAttack += OnAttacked;
         }
 
         private void OnDisable()
         {
-            _user.Attacked -= OnAttackedUser;
-            _enemy.Attacked -= OnAttackedEnemy;
+            _user.TakingAttack -= OnAttacked;
+            _enemy.TakingAttack -= OnAttacked;
         }
 
         private void Start()
@@ -40,16 +40,18 @@ namespace Game
             StepEnemy();
         }
 
-        private void OnAttackedUser(Cell cell)
+        private void OnAttacked(Cell cell, Player owner)
         {
-            if (_turnUser == false)
-                Step(cell); 
-        }
-
-        private void OnAttackedEnemy(Cell cell)
-        {
-            if (_turnUser)
-                Step(cell);
+            if(owner == _user)
+            {
+                if (_turnUser == false)
+                    Step(cell);
+            }
+            else
+            {
+                if (_turnUser)
+                    Step(cell);
+            }
         }
 
         private void StepEnemy()

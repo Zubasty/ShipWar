@@ -11,7 +11,10 @@ namespace Game
         private Map _map;
         private CellVisual[,] _cellsVisual;
 
-        public event Action<Cell> Attacked;
+        public event Action<Cell,Player> TakingAttack;
+        public event Action<Cell,Player> TookAttack;
+
+        public bool IsLose => _map.IsAllDeckAttacked;
 
         private void OnEnable()
         {
@@ -59,8 +62,9 @@ namespace Game
         {
             if(cell.IsOpen == false)
             {
-                Attacked?.Invoke(cell);
-            } 
+                TakingAttack?.Invoke(cell,this);
+                TookAttack?.Invoke(cell, this);
+            }
         }
     }
 }
