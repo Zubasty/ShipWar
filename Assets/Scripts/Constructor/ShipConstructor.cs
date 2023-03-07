@@ -7,6 +7,8 @@ public class ShipConstructor : MonoBehaviour
     private const int NotRotateValue = 0;
 
     [SerializeField] private ShipDeckConstructor[] _decks;
+    [SerializeField] private SpriteRenderer _renderer;
+    [SerializeField] private ShipDeckConstructorSettings _settings;
 
     private Vector3 _defaultPosition;
 
@@ -84,8 +86,25 @@ public class ShipConstructor : MonoBehaviour
         Deinstalled?.Invoke(this);      
     }
 
+    public void Select()
+    {
+        _renderer.color = _settings.IsSelected;
+    }
+
+    public void Deselect()
+    {
+        _renderer.color = _settings.IsntSelected;
+
+        foreach(ShipDeckConstructor deck in _decks)
+        {
+            deck.Deselect();
+        }
+    }
+
     public void OnVisual()
     {
+        _renderer.enabled = true;
+
         foreach(ShipDeckConstructor deck in _decks)
         {
             deck.OnVisual();
@@ -94,6 +113,8 @@ public class ShipConstructor : MonoBehaviour
 
     public void OffVisual()
     {
+        _renderer.enabled = false;
+
         foreach (ShipDeckConstructor deck in _decks)
         {
             deck.OffVisual();

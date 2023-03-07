@@ -14,6 +14,7 @@ namespace Game
         public event Action<Cell> Opened;
 
         public bool HaveDeck => _deck != null;
+        public ShipDeck Deck => _deck;
         public bool IsOpen => _isOpen;
         public bool BelongUser => _belongUser;
 

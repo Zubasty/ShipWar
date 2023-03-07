@@ -114,9 +114,6 @@ public class ConstructorInput : MonoBehaviour
 
     private void DeselectShip()
     {
-        for (int i = 0; i < _deck.Ship.CountDecks; i++)
-        {
-            _deck.Ship[i].Deselect();
-        }
+        _deck.Ship.Deselect();
     }
 }

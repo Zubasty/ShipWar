@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: ShipConstructorSettings
   m_EditorClassIdentifier: 
   _isntSelected: {r: 1, g: 1, b: 1, a: 1}
-  _isSelected: {r: 0.0005208254, g: 1, b: 0, a: 1}
-  _isSecondarySelected: {r: 0.015242062, g: 0.5377358, b: 0.012175134, a: 1}
+  _isSelected: {r: 1, g: 0, b: 0.050425053, a: 1}
