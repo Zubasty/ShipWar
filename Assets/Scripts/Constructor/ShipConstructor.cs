@@ -9,6 +9,7 @@ public class ShipConstructor : MonoBehaviour
     [SerializeField] private ShipDeckConstructor[] _decks;
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private ShipDeckConstructorSettings _settings;
+    [SerializeField] private SpriteRenderer _rendererSelected;
 
     private Vector3 _defaultPosition;
 
@@ -104,8 +105,9 @@ public class ShipConstructor : MonoBehaviour
     public void OnVisual()
     {
         _renderer.enabled = true;
+        _rendererSelected.enabled = true;
 
-        foreach(ShipDeckConstructor deck in _decks)
+        foreach (ShipDeckConstructor deck in _decks)
         {
             deck.OnVisual();
         }
@@ -114,6 +116,7 @@ public class ShipConstructor : MonoBehaviour
     public void OffVisual()
     {
         _renderer.enabled = false;
+        _rendererSelected.enabled = false;
 
         foreach (ShipDeckConstructor deck in _decks)
         {

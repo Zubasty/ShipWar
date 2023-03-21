@@ -7,9 +7,12 @@ namespace Game
     {
         [SerializeField] private Vector2 _positionMap;
         [SerializeField] private CellVisual _cellPrefab;
+        [SerializeField] private ShipVisual _shipPrefab;
 
         private Map _map;
         private CellVisual[,] _cellsVisual;
+        private Ship[] _ships;
+        private ShipVisual[] _shipsVisual;
 
         public event Action<Cell,Player> TakingAttack;
         public event Action<Cell,Player> TookAttack;
@@ -51,18 +54,28 @@ namespace Game
                     _cellsVisual[i, j].Init(_map[i, j]);
                 }
             }
+
+            _shipsVisual = new ShipVisual[_ships.Length];
+
+            for(int i = 0; i < _shipsVisual.Length; i++)
+            {
+                _shipsVisual[i] = Instantiate(_shipPrefab, transform);
+                _shipsVisual[i].transform.position = _positionMap + new Vector2(_ships[i].Indexes.i, _ships[i].Indexes.j);
+                _shipsVisual[i].Init(_ships[i]);
+            }
         }
 
-        public void Init(Map map)
+        public void Init(Map map, Ship[] ships)
         {
             _map = map;
+            _ships = ships;
         }
 
         private void OnTookHit(Cell cell)
         {
             if(cell.IsOpen == false)
             {
-                TakingAttack?.Invoke(cell,this);
+                TakingAttack?.Invoke(cell, this);
                 TookAttack?.Invoke(cell, this);
             }
         }

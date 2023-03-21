@@ -33,6 +33,10 @@ namespace Game
         public void Open()
         {
             _isOpen = true;
+
+            if (HaveDeck)
+                _deck.TakeDamage();
+
             Opened?.Invoke(this);
         }
     }

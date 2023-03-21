@@ -12,12 +12,12 @@ namespace Game
 
         private void Awake()
         {
-            Map userMap = GetMap(true);
-            _user.Init(userMap);
-            _enemy.Init(GetMap(false), userMap);
+            Map userMap = GetMap(true, out Ship[] ships);
+            _user.Init(userMap, ships);
+            _enemy.Init(GetMap(false, out ships), userMap, ships);
         }
 
-        private Map GetMap(bool isUser)
+        private Map GetMap(bool isUser, out Ship[] ships)
         {
             Cell[,] cells = new Cell[_maps.GetLengthMaps(), _maps.GetLengthMaps()];
 
@@ -39,6 +39,7 @@ namespace Game
             }
 
             List<List<ShipDeck>> listsDeck = new List<List<ShipDeck>>();
+            List<(float i, float j)> shipsPosition = new List<(float i, float j)>();
 
             for (int j = 0; j < cells.GetLength(0); j++)
             {
@@ -59,34 +60,77 @@ namespace Game
 
                         if(haveInListsDeck == false)
                         {
-
+                            listsDeck.Add(GetShip(cells,(i,j), out (float i, float j) positionShip));
+                            shipsPosition.Add(positionShip);
                         }
                     }
                 }
             }
+
+            ships = new Ship[listsDeck.Count];
+
+            for (int i = 0; i<listsDeck.Count; i++)
+            {
+                ships[i] = new Ship(listsDeck[i].ToArray(), shipsPosition[i]);
+            }
+
             return new Map(cells);
         }
 
-        /*private List<ShipDeck> GetShip(ShipDeck deck)
+        private bool HaveCell(Cell[,] cells, (int i, int j) indexesCell)
         {
-
+            return indexesCell.i >= 0 && indexesCell.j >= 0 && indexesCell.i < cells.GetLength(0) && indexesCell.j < cells.GetLength(1);
         }
 
-        private bool TryGetNewNeighbourDeck((int i, int j) indexesDeck)
+        private List<ShipDeck> GetShip(Cell[,] cells, (int i, int j) indexesDeck, out (float i, float j) positionShip)
+        {
+            if(HaveCell(cells, indexesDeck) == false)
+                throw new System.Exception($"ячейки с номерами {indexesDeck} не существует");
+
+            List<ShipDeck> ship = new List<ShipDeck>();
+            ship.Add(cells[indexesDeck.i, indexesDeck.j].Deck);
+            (int i, int j) previousIndexes = (-1, -1);
+            (int i, int j) currentIndexes = indexesDeck;
+            positionShip = (indexesDeck.i, indexesDeck.j);
+
+            while (TryGetNewNeighbourDeck(cells, currentIndexes, previousIndexes, out (int i, int j) newIndexes))
+            {
+                ship.Add(cells[newIndexes.i, newIndexes.j].Deck);
+                previousIndexes = currentIndexes;
+                currentIndexes = newIndexes;
+                positionShip.i += currentIndexes.i;
+                positionShip.j += currentIndexes.j;
+            }
+
+            positionShip.i /= ship.Count;
+            positionShip.j /= ship.Count;
+
+            return ship;
+        }
+
+        private bool TryGetNewNeighbourDeck(Cell[,] cells, (int i, int j) indexeDefaultsDeck, (int i, int j) indexesPrevousDeck, out (int i, int j) indexesNewDeck)
         {
             (int i, int j)[] shifts = new(int i, int j)[4]
             { 
-                (-1, -1),
-                (-1, 1),
-                (1, -1),
-                (1, 1)
+                (0, -1),
+                (0, 1),
+                (-1, 0),
+                (1, 0)
             };
 
             for(int i = 0; i < shifts.Length; i++)
             {
-                (int i, int j) newIndex = (indexesDeck.i + shifts[i].i, indexesDeck.j + shifts[i].j);
-
+                (int i, int j) newIndexes = (indexeDefaultsDeck.i + shifts[i].i, indexeDefaultsDeck.j + shifts[i].j);
+                
+                if(HaveCell(cells, newIndexes) && cells[newIndexes.i, newIndexes.j].Deck != null && newIndexes != indexesPrevousDeck)
+                {
+                    indexesNewDeck = newIndexes;
+                    return true;
+                }
             }
-        }*/
+
+            indexesNewDeck = (-1, -1);
+            return false;
+        }
     }
 }

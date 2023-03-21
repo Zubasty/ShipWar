@@ -139,6 +139,7 @@ MonoBehaviour:
   - {fileID: 1265920441090049512}
   _renderer: {fileID: 4441507382049213815}
   _settings: {fileID: 11400000, guid: 944c8e9855f5614458ca88387a8e91fc, type: 2}
+  _rendererSelected: {fileID: 4444891168456981156}
 --- !u!1 &7932457160245287978
 GameObject:
   m_ObjectHideFlags: 0

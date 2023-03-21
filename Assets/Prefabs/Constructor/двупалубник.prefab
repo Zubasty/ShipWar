@@ -53,6 +53,7 @@ MonoBehaviour:
   - {fileID: 2843742713166296931}
   _renderer: {fileID: 7385866623910012642}
   _settings: {fileID: 11400000, guid: 944c8e9855f5614458ca88387a8e91fc, type: 2}
+  _rendererSelected: {fileID: 5624579416730012034}
 --- !u!1 &5388497478716526304
 GameObject:
   m_ObjectHideFlags: 0

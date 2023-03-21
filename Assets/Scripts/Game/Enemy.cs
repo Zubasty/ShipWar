@@ -8,9 +8,9 @@ namespace Game
     {
         [SerializeField] private Map _userMap;
 
-        public void Init(Map map, Map userMap)
+        public void Init(Map map, Map userMap, Ship[] ships)
         {
-            Init(map);
+            Init(map, ships);
             _userMap = userMap;
         }
 

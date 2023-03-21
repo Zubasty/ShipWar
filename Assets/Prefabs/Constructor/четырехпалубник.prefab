@@ -225,6 +225,7 @@ MonoBehaviour:
   - {fileID: 458315284240750846}
   _renderer: {fileID: 5411398283084903347}
   _settings: {fileID: 11400000, guid: 944c8e9855f5614458ca88387a8e91fc, type: 2}
+  _rendererSelected: {fileID: 2075357073941844686}
 --- !u!1001 &5228940462176341639
 PrefabInstance:
   m_ObjectHideFlags: 0

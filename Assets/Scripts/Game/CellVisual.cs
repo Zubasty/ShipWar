@@ -6,7 +6,7 @@ namespace Game
 {
     public class CellVisual : MonoBehaviour
     {
-        [SerializeField] private Color[] _colorsCondition; //0 - закрыто; 1 - пусто; 2 - палуба; 3 - пусто и подбито; 4 - палуба и подбито
+        [SerializeField] private Color[] _colorsCondition; //0 - закрыто/не подбито; 1 - подбита€ пуста€ €чейка; 2 - подбитый корабль; 3 - подбита€ отдельна€ палуба.
         [SerializeField] private SpriteRenderer _renderer;
 
         private Cell _cell;
