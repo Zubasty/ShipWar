@@ -40,6 +40,7 @@ namespace Game
 
             List<List<ShipDeck>> listsDeck = new List<List<ShipDeck>>();
             List<(float i, float j)> shipsPosition = new List<(float i, float j)>();
+            List<bool> shipsRotated = new List<bool>();
 
             for (int j = 0; j < cells.GetLength(0); j++)
             {
@@ -60,8 +61,9 @@ namespace Game
 
                         if(haveInListsDeck == false)
                         {
-                            listsDeck.Add(GetShip(cells,(i,j), out (float i, float j) positionShip));
+                            listsDeck.Add(GetShip(cells,(i,j), out (float i, float j) positionShip, out bool rotated));
                             shipsPosition.Add(positionShip);
+                            shipsRotated.Add(rotated);
                         }
                     }
                 }
@@ -71,7 +73,7 @@ namespace Game
 
             for (int i = 0; i<listsDeck.Count; i++)
             {
-                ships[i] = new Ship(listsDeck[i].ToArray(), shipsPosition[i]);
+                ships[i] = new Ship(listsDeck[i].ToArray(), shipsPosition[i], shipsRotated[i]);
             }
 
             return new Map(cells);
@@ -82,7 +84,7 @@ namespace Game
             return indexesCell.i >= 0 && indexesCell.j >= 0 && indexesCell.i < cells.GetLength(0) && indexesCell.j < cells.GetLength(1);
         }
 
-        private List<ShipDeck> GetShip(Cell[,] cells, (int i, int j) indexesDeck, out (float i, float j) positionShip)
+        private List<ShipDeck> GetShip(Cell[,] cells, (int i, int j) indexesDeck, out (float i, float j) positionShip, out bool rotated)
         {
             if(HaveCell(cells, indexesDeck) == false)
                 throw new System.Exception($"ячейки с номерами {indexesDeck} не существует");
@@ -92,18 +94,23 @@ namespace Game
             (int i, int j) previousIndexes = (-1, -1);
             (int i, int j) currentIndexes = indexesDeck;
             positionShip = (indexesDeck.i, indexesDeck.j);
+            List<(int i, int j)> positionsAdditionalDecks = new List<(int i, int j)>();
 
             while (TryGetNewNeighbourDeck(cells, currentIndexes, previousIndexes, out (int i, int j) newIndexes))
             {
                 ship.Add(cells[newIndexes.i, newIndexes.j].Deck);
                 previousIndexes = currentIndexes;
                 currentIndexes = newIndexes;
-                positionShip.i += currentIndexes.i;
-                positionShip.j += currentIndexes.j;
+                positionsAdditionalDecks.Add(newIndexes);
             }
+
+            positionShip.i += positionsAdditionalDecks.Sum(el => el.i);
+            positionShip.j += positionsAdditionalDecks.Sum(el => el.j);
 
             positionShip.i /= ship.Count;
             positionShip.j /= ship.Count;
+
+            rotated = ship.Count > 1 && indexesDeck.i - positionsAdditionalDecks[0].i != 0;
 
             return ship;
         }

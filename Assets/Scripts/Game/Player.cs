@@ -7,7 +7,7 @@ namespace Game
     {
         [SerializeField] private Vector2 _positionMap;
         [SerializeField] private CellVisual _cellPrefab;
-        [SerializeField] private ShipVisual _shipPrefab;
+        [SerializeField] private ShipVisual[] _shipPrefab;
 
         private Map _map;
         private CellVisual[,] _cellsVisual;
@@ -59,7 +59,7 @@ namespace Game
 
             for(int i = 0; i < _shipsVisual.Length; i++)
             {
-                _shipsVisual[i] = Instantiate(_shipPrefab, transform);
+                _shipsVisual[i] = Instantiate(_shipPrefab[_ships[i].CountDecks - 1], transform);
                 _shipsVisual[i].transform.position = _positionMap + new Vector2(_ships[i].Indexes.i, _ships[i].Indexes.j);
                 _shipsVisual[i].Init(_ships[i]);
             }

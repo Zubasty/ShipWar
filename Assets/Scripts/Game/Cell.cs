@@ -34,10 +34,10 @@ namespace Game
         {
             _isOpen = true;
 
-            if (HaveDeck)
-                _deck.TakeDamage();
-
             Opened?.Invoke(this);
+
+            if (HaveDeck)
+                _deck.TakeDamage();   
         }
     }
 }

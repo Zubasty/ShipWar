@@ -6,6 +6,9 @@ namespace Game
 {
     public class CellVisual : MonoBehaviour
     {
+        [SerializeField] private Sprite _destroyedDeckSprite;
+        [SerializeField] private ParticleSystem _fireDeck;
+        [SerializeField] private SpriteRenderer _fireAndDestroyedRenderer;
         [SerializeField] private Color[] _colorsCondition; //0 - закрыто/не подбито; 1 - подбита€ пуста€ €чейка; 2 - подбитый корабль; 3 - подбита€ отдельна€ палуба.
         [SerializeField] private SpriteRenderer _renderer;
 
@@ -29,6 +32,12 @@ namespace Game
             }  
         }
 
+        private void OnDestroy()
+        {
+            if (_cell.HaveDeck)
+                _cell.Deck.Ship.Destroyed -= OnDestroyedShip;
+        }
+
         public void Init(Cell cell)
         {
             _cell = cell;
@@ -46,14 +55,27 @@ namespace Game
             }
 
             gameObject.SetActive(true);
+
+            if(_cell.HaveDeck)
+                _cell.Deck.Ship.Destroyed += OnDestroyedShip;
         }
 
         private void OnOpened(Cell cell)
         {
             if (cell.HaveDeck)
-                _renderer.color = _colorsCondition[4];
+            {
+                _fireDeck.gameObject.SetActive(true);
+            }           
             else
+            {
                 _renderer.color = _colorsCondition[3];
+            }             
+        }
+
+        private void OnDestroyedShip()
+        {
+            _fireDeck.gameObject.SetActive(false);
+            _fireAndDestroyedRenderer.sprite = _destroyedDeckSprite;
         }
     }
 }

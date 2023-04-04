@@ -12,18 +12,23 @@ namespace Game
 
         public ShipDeck this[int i] => _decks[i];
 
+        public int CountDecks => _decks.Length;
+
+        public bool IsRotated { get; }
+
         public event Action Destroyed;
 
-        public Ship(ShipDeck[] decks, (float i, float j) indexes)
+        public Ship(ShipDeck[] decks, (float i, float j) indexes, bool isRotated)
         {
             _decks = decks;
             Indexes = indexes;
 
-            foreach(ShipDeck deck in _decks)
+            foreach (ShipDeck deck in _decks)
             {
                 deck.Init(this);
                 deck.TookDamage += OnTookDamage;
             }
+            IsRotated = isRotated;
         }
 
         private void OnTookDamage()
