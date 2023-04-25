@@ -78,7 +78,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 4.06, y: 3.91}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -161,7 +161,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 093f5cd114c39774d94195730aeaf19a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 61602551981f0da408a69fb9610a53f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -184,15 +184,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e211f7d2a5cb9a489cc5a18d206bcb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destroyedDeckSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  _middleDestroyedSettings: {fileID: 11400000, guid: 7c6cc08c5a728344cbd798ad8fc1a6eb, type: 2}
+  _bowDestroyedSettings: {fileID: 11400000, guid: 53dc3458ded83064aaf17f7a8ce1d94a, type: 2}
+  _emptyDestroyedSettings: {fileID: 11400000, guid: 7cefebf4aa7f60a41a39c9562c44014f, type: 2}
   _fireDeck: {fileID: 7284084532540785644}
   _fireAndDestroyedRenderer: {fileID: 6158709836084034245}
-  _colorsCondition:
-  - {r: 0.9765067, g: 0, b: 1, a: 1}
-  - {r: 0.8396226, g: 0, b: 0, a: 1}
-  - {r: 1, g: 0.936378, b: 0, a: 1}
-  - {r: 0, g: 1, b: 0.8870559, a: 1}
-  - {r: 0.17987204, g: 0, b: 1, a: 1}
   _renderer: {fileID: 6242872633667556849}
 --- !u!61 &5693775202841003259
 BoxCollider2D:
@@ -249,7 +245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 416260, guid: 460fc6c4a00afd347a5cca537a1d6fa4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 416260, guid: 460fc6c4a00afd347a5cca537a1d6fa4, type: 3}
       propertyPath: m_LocalRotation.w

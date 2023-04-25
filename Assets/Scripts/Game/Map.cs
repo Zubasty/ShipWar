@@ -57,6 +57,19 @@ namespace Game
             return have;
         }
 
+        public bool IsLeftOrDownDeck(int i, int j)
+        {
+            if (this[i, j].HaveDeck)
+            {
+                if ((i - 1 < 0 || this[i - 1, j].HaveDeck == false) && (j - 1 < 0 || this[i, j - 1].HaveDeck == false))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
 
         private void OnOpened(Cell cell)
         {

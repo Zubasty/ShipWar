@@ -6,13 +6,17 @@ namespace Game
 {
     public class CellVisual : MonoBehaviour
     {
-        [SerializeField] private Sprite _destroyedDeckSprite;
+        [SerializeField] private SettingsDestroyedDecksSO _middleDestroyedSettings;
+        [SerializeField] private SettingsDestroyedDecksSO _bowDestroyedSettings;
+        [SerializeField] private SettingsDestroyedDecksSO _emptyDestroyedSettings;
         [SerializeField] private ParticleSystem _fireDeck;
         [SerializeField] private SpriteRenderer _fireAndDestroyedRenderer;
-        [SerializeField] private Color[] _colorsCondition; //0 - закрыто/не подбито; 1 - подбита€ пуста€ €чейка; 2 - подбитый корабль; 3 - подбита€ отдельна€ палуба.
         [SerializeField] private SpriteRenderer _renderer;
 
+        private Sprite _destroyedDeckSprite;
+
         private Cell _cell;
+        private ShipVisual _shipVisual;
 
         private void OnEnable()
         {
@@ -35,29 +39,30 @@ namespace Game
         private void OnDestroy()
         {
             if (_cell.HaveDeck)
-                _cell.Deck.Ship.Destroyed -= OnDestroyedShip;
+                _shipVisual.BlownUp -= OnBlownUp;
         }
 
-        public void Init(Cell cell)
+        public void Init(Cell cell, bool isLeftOrDownDeck, ShipVisual shipVisual = null)
         {
             _cell = cell;
-
-            if (cell.BelongUser)
-            {
-                if (cell.HaveDeck)
-                    _renderer.color = _colorsCondition[2];
-                else
-                    _renderer.color = _colorsCondition[1];
-            }
-            else
-            {
-                _renderer.color = _colorsCondition[0];
-            }
+            _shipVisual = shipVisual;
 
             gameObject.SetActive(true);
 
-            if(_cell.HaveDeck)
-                _cell.Deck.Ship.Destroyed += OnDestroyedShip;
+            _destroyedDeckSprite = isLeftOrDownDeck ? _bowDestroyedSettings.SpriteDestroyed : _middleDestroyedSettings.SpriteDestroyed;
+            bool isMirrored = isLeftOrDownDeck ? _bowDestroyedSettings.IsMirrored : _middleDestroyedSettings.IsMirrored;
+
+            if (isMirrored)
+                _fireAndDestroyedRenderer.transform.localScale = new Vector3(-_fireAndDestroyedRenderer.transform.localScale.x,
+                        _fireAndDestroyedRenderer.transform.localScale.y, _fireAndDestroyedRenderer.transform.localScale.z);
+
+            float rotateValue = isLeftOrDownDeck ? _bowDestroyedSettings.Rotation : _middleDestroyedSettings.Rotation;
+            if (_cell.HaveDeck)
+                rotateValue += _cell.Deck.Ship.IsRotated ? -90 : 0;
+            _fireAndDestroyedRenderer.transform.localEulerAngles += new Vector3(0, 0, rotateValue);
+
+            if (_cell.HaveDeck)
+                _shipVisual.BlownUp += OnBlownUp;
         }
 
         private void OnOpened(Cell cell)
@@ -68,11 +73,11 @@ namespace Game
             }           
             else
             {
-                _renderer.color = _colorsCondition[3];
+                _fireAndDestroyedRenderer.sprite = _emptyDestroyedSettings.SpriteDestroyed;
             }             
         }
 
-        private void OnDestroyedShip()
+        private void OnBlownUp()
         {
             _fireDeck.gameObject.SetActive(false);
             _fireAndDestroyedRenderer.sprite = _destroyedDeckSprite;

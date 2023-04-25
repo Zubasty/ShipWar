@@ -43,25 +43,32 @@ namespace Game
 
         private void Start()
         {
-            _cellsVisual = new CellVisual[_map.GetLength(), _map.GetLength()];
-
-            for (int i = 0; i < _map.GetLength(); i++)
-            {
-                for (int j = 0; j < _map.GetLength(); j++)
-                {   
-                    _cellsVisual[i, j] = Instantiate(_cellPrefab, transform);
-                    _cellsVisual[i, j].transform.position = _positionMap + new Vector2(i, j);
-                    _cellsVisual[i, j].Init(_map[i, j]);
-                }
-            }
-
             _shipsVisual = new ShipVisual[_ships.Length];
 
             for(int i = 0; i < _shipsVisual.Length; i++)
             {
                 _shipsVisual[i] = Instantiate(_shipPrefab[_ships[i].CountDecks - 1], transform);
-                _shipsVisual[i].transform.position = _positionMap + new Vector2(_ships[i].Indexes.i, _ships[i].Indexes.j);
+                _shipsVisual[i].transform.position = new Vector3(_positionMap.x, _positionMap.y, 0) + 
+                    new Vector3(_ships[i].Indexes.i, _ships[i].Indexes.j, _shipsVisual[i].transform.localPosition.z);
                 _shipsVisual[i].Init(_ships[i]);
+            }
+
+            _cellsVisual = new CellVisual[_map.GetLength(), _map.GetLength()];
+
+            for (int i = 0; i < _map.GetLength(); i++)
+            {
+                for (int j = 0; j < _map.GetLength(); j++)
+                {
+                    _cellsVisual[i, j] = Instantiate(_cellPrefab, transform);
+                    _cellsVisual[i, j].transform.position = _positionMap + new Vector2(i, j);
+                    ShipVisual shipVisual = null;
+
+                    for(int k = 0; k < _shipsVisual.Length; k++)
+                        if (_shipsVisual[k].HaveDeck(_map[i, j].Deck))
+                            shipVisual = _shipsVisual[k];
+
+                    _cellsVisual[i, j].Init(_map[i, j], _map.IsLeftOrDownDeck(i, j), shipVisual);
+                }
             }
         }
 

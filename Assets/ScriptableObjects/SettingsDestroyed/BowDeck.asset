@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f849159ee2c392e48be5a01604ae42c0, type: 3}
+  m_Name: BowDeck
+  m_EditorClassIdentifier: 
+  _spriteDestroyed: {fileID: -1996706159, guid: 224ca3bb6144aa14f98c681e3e777bf0, type: 3}
+  _rotation: 90
+  _isMirrored: 1
