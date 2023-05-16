@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-public class ShipConstructor : MonoBehaviour
+public class ShipConstructor : MonoBehaviour, IRotater
 {
-    private const int RotateValue = 270;
+    private const int RotateValue = -90;
     private const int NotRotateValue = 0;
 
     [SerializeField] private ShipDeckConstructor[] _decks;
@@ -16,11 +16,13 @@ public class ShipConstructor : MonoBehaviour
     public event Action<ShipConstructor> Deinstalled;
     public event Action<ShipConstructor> Installed;
 
-    public bool IsRotated => transform.rotation.eulerAngles.z == RotateValue;
+    public bool IsRotated { get; private set; }
 
     public bool IsInstalled { get; private set; }
 
     public int CountDecks => _decks.Length;
+
+    public float DefaultRotateValue => IsRotated ? RotateValue : NotRotateValue;
 
     public ShipDeckConstructor this[int i]
     {
@@ -34,6 +36,7 @@ public class ShipConstructor : MonoBehaviour
     {
         IsInstalled = false;
         _defaultPosition = transform.position;
+        IsRotated = false;
 
         foreach (ShipDeckConstructor deck in _decks)
         {
@@ -72,6 +75,7 @@ public class ShipConstructor : MonoBehaviour
             throw new Exception($"ѕопытка повернуть уже установленный корабль {name}");
         }
 
+        IsRotated = !IsRotated;
         transform.rotation = Quaternion.Euler(0, 0, IsRotated ? NotRotateValue : RotateValue);
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game
 {
-    public class ShipVisual : MonoBehaviour
+    public class ShipVisual : MonoBehaviour, IRotater
     {
         private const float ValueRotate = -90;
 
@@ -14,6 +14,8 @@ namespace Game
         private Ship _ship;
 
         public event Action BlownUp;
+
+        public float DefaultRotateValue => _ship.IsRotated ? ValueRotate : 0;
 
         private void Start()
         {

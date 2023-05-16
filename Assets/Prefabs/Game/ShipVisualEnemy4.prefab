@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 325760933085861845}
   - component: {fileID: 189105147887392769}
   - component: {fileID: 1039702435787038281}
+  - component: {fileID: -8632901974878444881}
   m_Layer: 0
   m_Name: ShipVisualEnemy4
   m_TagString: Untagged
@@ -100,6 +101,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _renderer: {fileID: 189105147887392769}
   _effectBoom: {fileID: 9091398755535558841}
+--- !u!114 &-8632901974878444881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358106402249550970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc59a25d393be9439521e0363b80c77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxDelta: 20
+  _speed: 10
 --- !u!1001 &9091398755517659161
 PrefabInstance:
   m_ObjectHideFlags: 0

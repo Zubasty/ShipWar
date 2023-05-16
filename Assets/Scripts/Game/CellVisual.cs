@@ -18,6 +18,8 @@ namespace Game
         private Cell _cell;
         private ShipVisual _shipVisual;
 
+        public bool HaveDeck => _cell.HaveDeck;
+
         private void OnEnable()
         {
             _cell.Opened += OnOpened;

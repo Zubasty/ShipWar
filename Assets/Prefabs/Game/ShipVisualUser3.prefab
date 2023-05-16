@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1066139600738984078}
   - component: {fileID: 635345816940769114}
   - component: {fileID: 298124183768901906}
+  - component: {fileID: 8946101353377034131}
   m_Layer: 0
   m_Name: ShipVisualUser3
   m_TagString: Untagged
@@ -100,6 +101,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _renderer: {fileID: 635345816940769114}
   _effectBoom: {fileID: 7099949613806367373}
+--- !u!114 &8946101353377034131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771624484399930145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc59a25d393be9439521e0363b80c77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxDelta: 20
+  _speed: 10
 --- !u!1001 &7099949613825085997
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -156,10 +171,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19845456, guid: d16221e794fe16e4e8994a7f8c770561, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 19849376, guid: d16221e794fe16e4e8994a7f8c770561, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}

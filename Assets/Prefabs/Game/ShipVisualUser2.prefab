@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7421440648842095092}
   - component: {fileID: 6981919752544216608}
   - component: {fileID: 7788649000392532072}
+  - component: {fileID: -4062872773047875832}
   m_Layer: 0
   m_Name: ShipVisualUser2
   m_TagString: Untagged
@@ -100,6 +101,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _renderer: {fileID: 6981919752544216608}
   _effectBoom: {fileID: 3931345355587772185}
+--- !u!114 &-4062872773047875832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8116581330330604123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc59a25d393be9439521e0363b80c77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxDelta: 20
+  _speed: 10
 --- !u!1001 &3931345355569774521
 PrefabInstance:
   m_ObjectHideFlags: 0
