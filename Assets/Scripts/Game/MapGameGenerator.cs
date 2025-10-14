@@ -14,7 +14,8 @@ namespace Game
         {
             Map userMap = GetMap(true, out Ship[] ships);
             _user.Init(userMap, ships);
-            _enemy.Init(GetMap(false, out ships), userMap, ships);
+            Map enemyMap = GetMap(false, out Ship[] shipsEnemy);
+            _enemy.Init(enemyMap, userMap, shipsEnemy);
         }
 
         private Map GetMap(bool isUser, out Ship[] ships)
@@ -27,7 +28,7 @@ namespace Game
                 {
                     (int i, int j) indexes = (i, _maps.GetLengthMaps() - j - 1);
 
-                    if (_maps.GetCellUser(i, j) == 1)
+                    if(isUser ? _maps.GetCellUser(i, j) == 1 : _maps.GetEnemyCell(i, j) == 1)
                     {
                         cells[indexes.i, indexes.j] = new Cell(isUser, new ShipDeck());
                     }
