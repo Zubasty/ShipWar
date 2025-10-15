@@ -21,3 +21,5 @@
 - Идеально подходит для быстрой партии против компьютера.
 
 Удачи на морских просторах!
+
+[**Скачать Windows/Linux**](https://github.com/Zubasty/KeyboardSimulator/releases) 
