@@ -22,4 +22,4 @@
 
 Удачи на морских просторах!
 
-[**Скачать Windows/Linux**](https://github.com/Zubasty/KeyboardSimulator/releases) 
+[**Скачать Windows/Linux**](https://github.com/Zubasty/ShipWar/releases) 
